@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">Inicio</ion-button>
+      <ion-button routerLink="/productos">Productos</ion-button>
+      <ion-button routerLink="/ventas">Compras</ion-button>
+      <ion-button color="secondary" routerLink="/carrito">
+        Ver Carrito
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-toolbar>
+  <ion-title>Carrito de Compras</ion-title>
+  <ion-buttons slot="end">
+    <ion-button color="danger" (click)="clearCarrito()">Vaciar Carrito</ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+
+<ion-content>
+  <ion-list *ngIf="carrito.length > 0; else emptyCarrito">
+    <ion-item *ngFor="let producto of carrito">
+      <ion-thumbnail slot="start">
+        <img [src]="'http://127.0.0.1:8000' + producto.imagen" *ngIf="producto.imagen">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ producto.nombre }}</h2>
+        <p>Precio: S/.{{ producto.precio }}</p>
+        <p>Cantidad: {{ producto.cantidad }}</p>
+        <strong>Total: S/.{{ producto.precio * producto.cantidad }}</strong>
+      </ion-label>
+      <ion-button color="danger" (click)="removeProducto(producto.producto_id)">Eliminar</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" color="success" (click)="comprar()">Comprar</ion-button>
+
+  <ng-template #emptyCarrito>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>El carrito está vacío</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Agrega productos para verlos aquí.
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>

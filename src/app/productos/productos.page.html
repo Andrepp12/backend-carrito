@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/home">Inicio</ion-button>
+      <ion-button routerLink="/productos">Productos</ion-button>
+      <ion-button routerLink="/ventas">Compras</ion-button>
+      <ion-button color="secondary" routerLink="/carrito">
+        Ver Carrito
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-toolbar>
+  <ion-title>Productos</ion-title>
+  <ion-buttons slot="end" *ngIf="!showForm">
+    <ion-button (click)="toggleForm()">
+      <ion-icon slot="start" name="add-circle"></ion-icon>
+      Nuevo Producto
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content>
+  <!-- Mostrar el formulario si showForm es true -->
+  <div *ngIf="showForm; else productList">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="6" size-sm="12">
+          <form [formGroup]="productoForm" (ngSubmit)="saveProducto()">
+            <ion-item>
+              <ion-label position="floating">Nombre</ion-label>
+              <ion-input type="text" formControlName="nombre"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Descripción</ion-label>
+              <ion-textarea formControlName="descripcion"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Precio</ion-label>
+              <ion-input type="number" formControlName="precio"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Stock</ion-label>
+              <ion-input type="number" formControlName="stock"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Categoría</ion-label>
+              <ion-select formControlName="categoria_id">
+                <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.id">
+                  {{ categoria.nombre }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Imagen</ion-label>
+              <ion-input type="file" (change)="onFileChange($event)"></ion-input>
+            </ion-item>
+
+            <ion-button expand="block" type="submit" [disabled]="productoForm.invalid">
+              {{ editMode ? 'Actualizar Producto' : 'Agregar Producto' }}
+            </ion-button>
+            <ion-button expand="block" color="light" (click)="toggleForm()">Cancelar</ion-button>
+          </form>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <!-- Mostrar la lista de productos si showForm es false -->
+  <ng-template #productList>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-list>
+            <ion-item *ngFor="let producto of productos">
+              <ion-thumbnail slot="start">
+                <img [src]="'http://127.0.0.1:8000' + producto.imagen" *ngIf="producto.imagen">
+              </ion-thumbnail>
+              <ion-label>
+                <h2>{{ producto.nombre }}</h2>
+                <p>{{ producto.descripcion }}</p>
+                <strong>Precio: S/.{{ producto.precio }}</strong>
+                <p>Stock: {{ producto.stock }}</p>
+              </ion-label>
+              <ion-buttons slot="end">
+                <ion-button color="primary" (click)="editProducto(producto)">Editar</ion-button>
+                <ion-button color="danger" (click)="deleteProducto(producto.id)">Eliminar</ion-button>
+                <ion-button color="primary" (click)="promptCantidad(producto)">
+                  Agregar al Carrito
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-template>
+</ion-content>

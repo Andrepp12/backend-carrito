@@ -25,3 +25,31 @@
 #container a {
   text-decoration: none;
 }
+h1 {
+  font-size: 2.5rem;
+  margin-top: 2rem;
+  color: #3880ff;
+}
+
+p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+ion-footer {
+  background-color: #f4f4f4;
+}
+
+ion-button {
+  margin: 0 5px;
+}
+
+ion-footer {
+  ion-button {
+    margin: 0 5px;
+  }
+
+  ion-buttons[slot='end'] ion-button {
+    color: red; /* Cambia el color del botón de cierre de sesión si deseas destacarlo */
+  }
+}

@@ -1,20 +1,45 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
+<ion-header>
+  <!-- <ion-toolbar>
+    <ion-title>Inicio</ion-title>
+  </ion-toolbar> -->
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-content>
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-buttons slot="start">
+        <ion-button routerLink="/home">Inicio</ion-button>
+        <ion-button routerLink="/productos">Productos</ion-button>
+        <ion-button routerLink="/ventas">Compras</ion-button>
+        <ion-button color="secondary" routerLink="/carrito">
+          Ver Carrito
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div *ngIf="userData">
+    <h1>Bienvenido, {{ userData.user.nombre }}</h1>
   </div>
+  <div *ngIf="!userData">
+    <h1>No hay datos de usuario</h1>
+  </div>
+
+  <!-- Navbar con opciones -->
+  <!-- <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button routerLink="/home">Inicio</ion-button>
+        <ion-button routerLink="/productos">Productos</ion-button>
+        <ion-button routerLink="/ventas">Ventas</ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>   -->
 </ion-content>
+
